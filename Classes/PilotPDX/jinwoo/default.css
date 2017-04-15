@@ -1,0 +1,69 @@
+body{
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.numbers{
+  font-weight: bolder;
+  font-size: 1.2em;
+  width: 60px;
+  text-align: right;
+  display: inline-block;
+}
+
+.login{
+  padding-left: 50px;
+}
+.loginLabels{
+  text-align: right;
+}
+div#loginError{
+  color: red;
+  text-align: center;
+}
+canvas {
+  border-color: yellow;
+  border-width: 0px;
+  border-style: double;
+  background-image: url('bittersweetbitybooftop.gif');
+  background-size: cover;
+}
+
+td.controls{
+  text-align: center;
+  width: 100px;
+}
+
+i.arrow {
+    border: solid purple;
+    border-width: 0 3px 3px 0;
+    display: inline-flex;
+    padding: 2px;
+
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.controls button{
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  margin: 6px;
+}
