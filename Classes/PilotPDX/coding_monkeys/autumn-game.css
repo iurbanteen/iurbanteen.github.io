@@ -57,3 +57,9 @@ font-family: sans-serif;
   .dropdown:hover .dropbtn {
       background-color: orange;
   }
+
+  #scoreboard {
+    background-color: orange;
+    display:block;
+    height:100%;
+  }
