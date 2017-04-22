@@ -1,0 +1,32 @@
+<html lang="en">
+
+  <head>
+    <title>The Brash Blue Bike Boy</title>
+    <link type="text/css" rel="stylesheet" href="bikeboy.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="bikeboy.js"></script>
+  </head>
+  <style>
+
+  </style>
+  <body>
+    <h1> THE BRASH BLUE BIKE BOI</h1>
+    <p>
+    <table>
+      <tr>
+        <th class="counters">Score <span id="score" class="numbers"></span>-</th>
+        <th class="counters">High Score <span id="highScore" class="numbers"></span>-</th>
+      </tr>
+      <tr>
+        <td class="canvas" colspan="3">
+    <canvas id="canvas" width="1200" height="800"></canvas>
+  </td>
+</tr>
+</table>
+<p>
+  <button id="start" onclick="startGame()">Start</button>
+  <button id="reset" onclick="resetBox()">Reset</button>
+</p>
+</body>
+
+</html>
