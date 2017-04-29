@@ -92,7 +92,8 @@ function stop() {
 function start() {
     moving = true;
     interval = setInterval(function() {
-      $('#playfield').css('background-position', ++currXLoc + 'px 0');
+        (direction == "right") ? currXLoc -= 1: currXLoc += 1;
+        $('#playfield').css('background-position', currXLoc + 'px 0');
     }, 10);
     animateDude();
 }
