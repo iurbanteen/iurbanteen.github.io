@@ -1,0 +1,13 @@
+var xOffset;
+var yOffset;
+var playfield;
+var context;
+var bikeBoySize = 60;
+var bheelAmount = 25;
+var food = [];
+var bheelSize = 72;
+var bheelImage;
+var bikeBoyImage;
+var counter;
+var currentScore = 0;
+var started = false;

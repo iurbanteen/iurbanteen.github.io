@@ -1,0 +1,48 @@
+ ``<html lang="en">
+
+  <head>
+    <title>Week 6 - Game Design</title>
+    <link type="text/css" rel="stylesheet" href="default.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="lastweek.js"></script>
+  </head>
+
+  <body onload="init();">s
+    <h1>Cringe</h1>
+    <p>
+    <table>
+      <tr>
+        <th class="counters">Timer <span id="timer" class="numbers"></span> s.</th>
+        <th class="counters">Score <span id="score" class="numbers"></span> pts.</th>
+      </tr>
+      <tr>
+        <td class="canvas">
+          <canvas id="theCanvas" width="1200" height="500"></canvas>
+        </td>
+        <td class="controls">
+          <button id="up" onclick="move('up');"><i class="arrow up"></i></button><br/>
+          <button id="left" onclick="move('left');"><i class="arrow left"></i></button>
+          <button id="right" onclick="move('right');"><i class="arrow right"></i></button><br/>
+          <button id="down" onclick="move('down');"><i class="arrow down"></i></button>
+        </td>
+      </tr>
+    </table>
+    <p>Box color:
+      <select id="boxColor" onchange="setColor();">
+        <option selected value="black">Black</option>
+        <option value="blue">Blue</option>
+        <option value="aquamarine">Aquamarine</option>
+        <option value="maroon">Maroon</option>
+        <option value="lawngreen">Green</option>
+      </select>
+    </p>
+    <p>Step size:
+      <input id="stepSize" type="number" value="5" onchange="setStepSize(this.value);"></input>
+    </p>
+    <p>
+      <button id="start" onclick="startGame()">Start</button>
+      <button id="reset" onclick="resetBox()">Reset</button>
+    </p>
+  </body>
+
+</html>
