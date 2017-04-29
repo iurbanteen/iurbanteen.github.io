@@ -9,6 +9,8 @@ canvas {
   border-color: black;
   width: 800px;
   height: 600px;
+  background-image: url('images/background-600h.png');
+  background-repeat: repeat-x;
   z-index: 0;
   position: relative;
   background-color: white;
