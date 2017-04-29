@@ -77,3 +77,20 @@ div#progressStats{
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
+
+.gameNotice{
+  position: absolute;
+  z-index: 2;
+  height: 20px;
+  width: 160px;
+  top: 290px;
+  left: 320px;
+  text-align: center;
+  font-size: 20px;
+}
+#startGame{
+  display: block;
+}
+#gameOver{
+  display: none;
+}
