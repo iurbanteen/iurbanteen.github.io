@@ -9,6 +9,10 @@ var sounds = {
     backgroundMusic: null,
     gameOver: null
 }
+var images = {
+    groundImage: null,
+    decorationImage: null
+}
 var backgroundXLoc = 0;
 
 // everything in here happens once the HTML document is loaded.
@@ -16,10 +20,11 @@ $(function() {
     // initialize anything here
     playfield = document.getElementById('playfield');
     context = playfield.getContext("2d");
+    $('#gameStart').show();
     // initialization routine(s)
     initializeListeners();
     initializeAudio();
-
+    initializeGraphics ();
 });
 
 // register the key press listener
@@ -38,13 +43,23 @@ function initializeAudio() {
     sounds.gameOver.load();
     sounds.gameOver.onLoadedData = loadComplete;
 }
+
+function initializeGraphics(){
+  images.groundImage = new Image();
+  images.groundImage.src = "images/ground_image_map.png";
+  images.groundImage.onload = loadComplete;
+  images.decorationImage = new Image();
+  images.decorationImage.src = "images/decoration_image_map.png";
+  images.decorationImage.onload = loadComplete;
+}
+
 var loadedItems = 0;
 function loadComplete() {
     loadedItems += 1;
 }
 
 function isEveryingLoaded() {
-    return (loadedItems == 2);
+    return (loadedItems == 4);
 }
 // start the game
 function gameStart() {
@@ -56,6 +71,7 @@ function gameStart() {
     sounds.backgroundMusic.play();
     sounds.gameOver.currentTime = 0; // rewind the 'game over' sound
     startTimer();
+    drawPlatform();
     moveBackground();
 }
 var backgroundTimer;
@@ -115,4 +131,12 @@ function keyEventHandler(event) {
 function move(direction) {
     console.log(`Move ${direction}`);
     // add the motion handling
+}
+
+function drawPlatform() {
+  var x = 20;
+  var y = 100;
+  context.drawImage(images.groundImage, 0,0,100,100,x,y,20,20);
+  context.drawImage(images.groundImage, 0,100,100,100,x+20,y,20,20);
+  context.drawImage(images.groundImage, 0,)
 }

@@ -3,9 +3,11 @@
 <head>
 <link type="text/css" rel="stylesheet" href="autumn-game.css"/>
 </link>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="game.js"></script>
 </head>
 <body>
-<table>
+<!-- <table>
   <tr>
     <td>
       <span>level</span>
@@ -26,12 +28,16 @@
     </td>
   </tr>
   <tr>
-<td colspan="3">
-  <canvas>
-  </canvas>
-</td>
-</tr>
-</table>
+    <td colspan="3"> -->
+      <div id="gameboard">
+        <canvas id ="playfield">
+          <div id="gameStart" class="gameNotice"><a href="#" onClick="gameStart();">Start game</a></div>
+          <div id="gameOver" class="gameNotice">Game over<p><a href="#" onclick="gameStart();">Restart</a></p></div>
+        </canvas>
+      </div>
+    <!-- </td>
+  </tr>
+</table> -->
 </body>
 
 
