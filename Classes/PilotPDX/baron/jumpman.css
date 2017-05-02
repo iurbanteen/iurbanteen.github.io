@@ -1,0 +1,13 @@
+body{
+  font-family:  "Comic Sans MS", cursive, sans-serif;
+}
+
+canvas {
+  border-color: salmon;
+  border-width: 5px;
+  border-style: none;
+  background-color: black;
+  background-size: cover;
+  background-image: url('Background.jpg')
+
+}

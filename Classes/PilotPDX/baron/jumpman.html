@@ -1,0 +1,29 @@
+<html lang="en">
+
+  <head>
+    <title>JumpMan</title>
+    <link type="text/css" rel="stylesheet" href="jumpman.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="Jumpman.js"></script>
+  </head>
+    <body>hello there</body>
+    <h1>Jumpman</h1>
+    <p> <table>
+      <tr>
+        <th class="counters">Timer <span id="timer" class="numbers"></span> s.</th>
+        <th class="counters">Score <span id="score" class="numbers"></span> pts.</th>
+      </tr>
+      <tr>
+        <td class="canvas">
+          <canvas id="theCanvas" width="1000" height="700"></canvas>
+        </td>
+        <td class="controls">
+          <button id="up" onclick="move('up');"><i class="arrow up"></i></button><br/>
+          <button id="left" onclick="move('left');"><i class="arrow left"></i></button>
+          <button id="right" onclick="move('right');"><i class="arrow right"></i></button><br/>
+          <button id="down" onclick="move('down');"><i class="arrow down"></i></button>
+        </td>
+      </tr>
+    </table>
+
+  </html>

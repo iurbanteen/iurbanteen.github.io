@@ -1,0 +1,31 @@
+#canvas {
+  height: 100%;
+  width: 100%;
+  background-image: url("gamebackground.jpg");
+}
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+}
+div#scratch {
+  border: 1px solid black;
+  height: 10px;
+  border-radius: 5px;
+  display: block;
+}
+#progress {
+  background-color: #0000AA;
+  width: 50%;
+  height: 100%;
+}
+@keyframes names {
+  0% {color: #FFFFFF;}
+  50% {color: #EEEEEE;}
+  100% {color: #FFFFFF}
+}
+.names {
+ animation-name: names;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}

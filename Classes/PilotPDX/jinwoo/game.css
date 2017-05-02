@@ -1,0 +1,103 @@
+body{
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
+}
+#gameboard{
+  position:relative;
+}
+canvas {
+  border-style: solid;
+  border-color: black;
+  width: 800px;
+  height: 600px;
+  background-image: url('images/bittersweetbitybooftop.gif');
+  background-size: cover;
+  background-repeat: repeat-x;
+  z-index: 0;
+  position: relative;
+  background-color: white;
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.boardValueContainer{
+  position: absolute;
+  background-color: lightblue;
+  border-style: solid;
+  border-color: black;
+  display: block;
+  z-index: 1;
+  height: 20px;
+  top: 0px;
+  width: 140px;
+  padding: 5px;
+}
+.title{
+  float: left;
+  width: 60px;
+}
+.boardValues{
+  float: right;
+  text-align: right;
+  display: block;
+  width: 80px;
+}
+
+span#score{
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomright: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+span#level{
+  left: 325px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+span#timer{
+  left: 650px;
+  -webkit-border-bottom-left-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  border-bottom-left-radius: 8px;
+}
+div#progressStats{
+  display: block;
+  width: 790px;
+  height: 20px;
+  padding: 5px;
+  border-style: solid;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.gameNotice{
+  position: absolute;
+  z-index: 2;
+  height: 20px;
+  width: 160px;
+  top: 290px;
+  left: 320px;
+  text-align: center;
+  font-size: 20px;
+}
+a {
+  color: white;
+}
+#startGame{
+  display: block;
+}
+#gameOver{
+  display: none;
+  color: white;
+}

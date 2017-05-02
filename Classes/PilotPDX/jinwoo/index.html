@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>My game</title>
+  <link rel="stylesheet" type="text/css" href="game.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="game.js"></script>
+</head>
+<body>
+
+<div id="gameboard">
+  <canvas id="playfield"></canvas>
+  <span id="score" class="boardValueContainer"><span class="title">Score</span><span id="scoreValue" class="boardValues">0</span></span>
+  <span id="timer" class="boardValueContainer"><span class="title">Timer</span><span id="timerValue" class="boardValues">0</span></span>
+  <div id="gameStart" class="gameNotice"><a href="#" onClick="gameStart();">Start game</a></div>
+  <div id="gameOver" class="gameNotice">Game over<p><a href="#" onClick="gameStart();">Restart</a></p></div>
+</div>
+
+</body>
+</html>

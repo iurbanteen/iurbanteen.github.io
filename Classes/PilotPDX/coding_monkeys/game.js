@@ -37,6 +37,15 @@ function initializeAudio() {
     sounds.gameOver = new Audio("audio/76376__deleted-user-877451__game-over.wav");
     sounds.gameOver.load();
     sounds.gameOver.onLoadedData = loadComplete;
+    sounds.landingonPlatform = new Audio("audio/86005__nextmaking__landing-on-the-ground.aif");
+    sounds.landingonPlatform.load();
+    sounds.landingonPlatform.onLoadedData = loadComplete;
+    sounds.attack = new Audio("audio/216200__rsilveira-88__cartoon-punch-04.wav");
+    sounds.attack.load();
+    sounds.attack.onLoadedData = loadComplete;
+    sounds.levelUp = new Audio("audio/320657__rhodesmas__level-up-03.wav");
+    sounds.levelUp.load();
+    sounds.levelUp.onLoadedData = loadComplete;
 }
 var loadedItems = 0;
 function loadComplete() {
@@ -55,6 +64,7 @@ function gameStart() {
     $('#gameOver').hide();
     sounds.backgroundMusic.play();
     sounds.gameOver.currentTime = 0; // rewind the 'game over' sound
+    sounds.levelUp.play();
     startTimer();
     moveBackground();
 }

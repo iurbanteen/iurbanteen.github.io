@@ -24,7 +24,8 @@ $(function() {
 
 // register the key press listener
 function initializeListeners() {
-    document.onkeydown = keyEventHandler;
+    document.onkeydown = keyDownEventHandler;
+    document.onkeyup = keyUpEventHandler;
     // will need to add 'key up' for continual movement
 }
 // load all the sounds before we start
@@ -98,21 +99,38 @@ function startTimer() {
 }
 
 // Translate key press event into direction
-function keyEventHandler(event) {
-    if (event.keyCode == 38) {
-        move('up');
-    } else if (event.keyCode == 39) {
-        move('right');
-    } else if (event.keyCode == 40) {
-        move('down');
-    } else if (event.keyCode == 37) {
-        move('left');
-    } else if (event.keyCode == 32) {
-        // spacebar event - used for game start or jump ?
-    }
+function keyDownEventHandler(event) {
+  if (KEY_CODES[event.keyCode]) {
+    event.preventDefault();
+    KEY_STATUS[KEY_CODES[event.keyCode]] = true;
+  }
+}
+function keyUpEventHandler(event) {
+  if (KEY_CODES[event.keyCode]) {
+    event.preventDefault();
+    KEY_STATUS[KEY_CODES[event.keyCode]] = false;
+  }
 }
 
 function move(direction) {
     console.log(`Move ${direction}`);
     // add the motion handling
+}
+
+// The keycodes that will be mapped when a user presses a button.
+// Original code by Doug McInnes
+KEY_CODES = {
+  32: 'space',
+  37: 'left',
+  38: 'up',
+  39: 'right',
+  40: 'down',
+}
+// Creates the array to hold the KEY_CODES and sets all their values
+// to false. Checking true/flase is the quickest way to check status
+// of a key press and which one was pressed when determining
+// when to move and which direction.
+KEY_STATUS = {};
+for (code in KEY_CODES) {
+  KEY_STATUS[ KEY_CODES[ code ]] = false;
 }
