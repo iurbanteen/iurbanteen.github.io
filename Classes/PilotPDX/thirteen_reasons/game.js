@@ -43,35 +43,44 @@ function initializeAudio() {
     sounds.backgroundMusic = new Audio("audio/384695__waveplay__atmospheric-ambient-fade.wav");
     sounds.backgroundMusic.loop = true;
     sounds.backgroundMusic.volume = .25;
-    sounds.backgroundMusic.load();
     $(sounds.backgroundMusic).on('loadeddata', loadComplete);
+    sounds.backgroundMusic.load();
+
     sounds.gameOver = new Audio("audio/76376__deleted-user-877451__game-over.wav");
-    sounds.gameOver.load();
     $(sounds.gameOver).on('loadeddata', loadComplete);
+    sounds.gameOver.load();
+
     sounds.tankfire = new Audio("audio/189344__qubodup__tanks-shooting.flac");
-    sounds.tankfire.load();
     $(sounds.tankfire).on('loadeddata', loadComplete);
+    sounds.tankfire.load();
+
     sounds.pscream = new Audio("audio/42847__freqman__psycho-scream-1.wav");
-    sounds.pscream.load();
     $(sounds.pscream).on('loadeddata', loadComplete);
+    sounds.pscream.load();
+
     sounds.roar = new Audio("audio/48673__sea-fury__monster-2.wav");
-    sounds.roar.load();
     $(sounds.roar).on('loadeddata', loadComplete);
+    sounds.roar.load();
+
     sounds.wscream = new Audio("audio/132106__sironboy__woman-scream.wav");
-    sounds.wscream.load();
     $(sounds.wscream).on('loadeddata', loadComplete);
+    sounds.wscream.load();
+
     sounds.oplane = new Audio("audio/23519__percy-duke__aeroplane-passing-overhead.mp3");
-    sounds.oplane.load();
     $(sounds.oplane).on('loadeddata', loadComplete);
+    sounds.oplane.load();
+
     sounds.explosion = new Audio("audio/235968__tommccann__explosion-01.wav");
-    sounds.explosion.load();
     $(sounds.explosion).on('loadeddata', loadComplete);
+    sounds.explosion.load();
+
     sounds.nooahhh = new Audio("audio/240223__xtrgamr__nooooaaaah-01.wav");
-    sounds.nooahhh.load();
     $(sounds.nooahhh).on('loadeddata', loadComplete);
+    sounds.nooahhh.load();
+
     sounds.footsteps = new Audio("audio/268829__kwahmah-02__huge-footsteps.wav");
-    sounds.footsteps.load();
     $(sounds.footsteps).on('loadeddata', loadComplete);
+    sounds.footsteps.load();
 
 }
 var loadedItems = 0;

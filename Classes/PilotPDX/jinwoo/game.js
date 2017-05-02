@@ -57,24 +57,29 @@ function initializeAudio() {
     sounds.backgroundMusic = new Audio("audio/Casual-friday-electronic-beat-music.mp3");
     sounds.backgroundMusic.loop = true;
     sounds.backgroundMusic.volume = .25;
+    $(sounds.backgroundMusic).on('loadeddata', loadComplete);
     sounds.backgroundMusic.load();
-    sounds.backgroundMusic.onLoadedData = loadComplete;
+
     sounds.die = new Audio("audio/die.wav");
+    $(sounds.die).on('loadeddata', loadComplete);
     sounds.die.load();
-    sounds.die.onLoadedData = loadComplete;
     sounds.die.volume = 1;
+
     sounds.jumpSound = new Audio("audio/jumpsound.m4a");
+    $(sounds.jumpSound).on('loadeddata', loadComplete);
     sounds.jumpSound.load();
-    sounds.jumpSound.onLoadedData = loadComplete;
+
     sounds.pickUpCoin = new Audio("audio/coinSound.wav");
+    $(sounds.pickUpCoin).on('loadeddata', loadComplete);
     sounds.pickUpCoin.load();
-    sounds.pickUpCoin.onLoadedData = loadComplete;
+
     sounds.crowSound = new Audio("audio/crowSound.wav");
+    $(sounds.crowSound).on('loadeddata', loadComplete);
     sounds.crowSound.load();
-    sounds.crowSound.onLoadedData = loadComplete;
+
     sounds.ratSqueak = new Audio("audio/ratsqueak.wav");
+    $(sounds.ratSqueak).on('loadeddata', loadComplete);    
     sounds.ratSqueak.load();
-    sounds.ratSqueak.onLoadedData = loadComplete;
   }
 var loadedItems = 0;
 function loadComplete() {

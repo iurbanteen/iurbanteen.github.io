@@ -48,32 +48,39 @@ function initializeListeners() {
 
 // load all the sounds before we start
 function initializeAudio() {
-    sounds.backgroundMusic = new Audio("audio/backgroundMusic.wav.crdownload");
+    sounds.backgroundMusic = new Audio("audio/backgroundMusic.wav");
     sounds.backgroundMusic.loop = true;
     sounds.backgroundMusic.volume = .55;
+    $(sounds.backgroundMusic).on('loadeddata', loadComplete);
     sounds.backgroundMusic.load();
-    sounds.backgroundMusic.onLoadedData = loadComplete;
+
     sounds.gameOver = new Audio("audio/gameOver.m4a");
+    $(sounds.gameOver).on('loadeddata', loadComplete);
     sounds.gameOver.load();
-    sounds.gameOver.onLoadedData = loadComplete;
+
     sounds.coinCollect = new Audio("audio/coinCollect.wav");
+    $(sounds.coinCollect).on('loadeddata', loadComplete);
     sounds.coinCollect.load();
-    sounds.coinCollect.onLoadedData = loadComplete;
+
     sounds.jumpSound = new Audio("audio/jumpSound.wav");
+    $(sounds.jumpSound).on('loadeddata', loadComplete);
     sounds.jumpSound.load();
-    sounds.jumpSound.onLoadedData = loadComplete;
+
     sounds.enemyKill = new Audio("audio/enemyKill.wav");
+    $(sounds.enemyKill).on('loadeddata', loadComplete);
     sounds.enemyKill.load();
-    sounds.enemyKill.onLoadedData = loadComplete;
+
     sounds.powerUp = new Audio("audio/powerUp.m4a");
+    $(sounds.powerUp).on('loadeddata', loadComplete);
     sounds.powerUp.load();
-    sounds.powerUp.onLoadedData = loadComplete;
+
     sounds.levelEnd = new Audio("audio/levelEnd.m4a");
+    $(sounds.levelEnd).on('loadeddata', loadComplete);
     sounds.levelEnd.load();
-    sounds.levelEnd.onLoadedData = loadComplete;
+
     sounds.itemSelect = new Audio("audio/itemSelect.wav");
+    $(sounds.itemSelect).on('loadeddata', loadComplete);
     sounds.itemSelect.load();
-    sounds.itemSelect.onLoadedData = loadComplete;
 
 
 }

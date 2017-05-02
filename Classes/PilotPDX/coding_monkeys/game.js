@@ -32,20 +32,24 @@ function initializeAudio() {
     sounds.backgroundMusic = new Audio("audio/386412__setuniman__restless-1o69.wav");
     sounds.backgroundMusic.loop = true;
     sounds.backgroundMusic.volume = .25;
+    $(sounds.backgroundMusic).on('loadeddata', loadComplete);
     sounds.backgroundMusic.load();
-    sounds.backgroundMusic.onLoadedData = loadComplete;
+
     sounds.gameOver = new Audio("audio/76376__deleted-user-877451__game-over.wav");
+    $(sounds.gameOver).on('loadeddata', loadComplete);
     sounds.gameOver.load();
-    sounds.gameOver.onLoadedData = loadComplete;
+
     sounds.landingonPlatform = new Audio("audio/86005__nextmaking__landing-on-the-ground.aif");
+    $(sounds.landingonPlatform).on('loadeddata', loadComplete);
     sounds.landingonPlatform.load();
-    sounds.landingonPlatform.onLoadedData = loadComplete;
+
     sounds.attack = new Audio("audio/216200__rsilveira-88__cartoon-punch-04.wav");
+    $(sounds.attack).on('loadeddata', loadComplete);
     sounds.attack.load();
-    sounds.attack.onLoadedData = loadComplete;
+
     sounds.levelUp = new Audio("audio/320657__rhodesmas__level-up-03.wav");
+    $(sounds.levelUp).on('loadeddata', loadComplete);
     sounds.levelUp.load();
-    sounds.levelUp.onLoadedData = loadComplete;
 }
 var loadedItems = 0;
 function loadComplete() {

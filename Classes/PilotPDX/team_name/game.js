@@ -45,15 +45,18 @@ function initializeAudio() {
   sounds.backgroundMusic.volume = .25;
   $(sounds.backgroundMusic).on('loadeddata', loadComplete);
   sounds.backgroundMusic.load();
+
   sounds.gameOver = new Audio("audio/gameOverSound.m4a");
-  sounds.gameOver.load();
   $(sounds.gameOver).on('loadeddata', loadComplete);
+  sounds.gameOver.load();
+
   sounds.bossDamage = new Audio("audio/bossdamage.wav")
-  sounds.bossDamage.load();
   $(sounds.bossDamage).on('loadeddata', loadComplete);
+  sounds.bossDamage.load();
+
   sounds.flapping = new Audio("audio/flap1.wav")
-  sounds.flapping.load();
   $(sounds.flapping).on('loadeddata', loadComplete);
+  sounds.flapping.load();
 }
 var loadedItems = 0;
 function loadComplete() {
