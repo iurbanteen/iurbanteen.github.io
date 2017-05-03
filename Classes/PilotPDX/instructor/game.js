@@ -113,7 +113,7 @@ function moveCharacter(){
   characterTimer = setInterval(function() {
     mainCharacter.step();
     mainCharacter.draw();
-  }, 100);
+  }, 70);
 }
 function haltCharacter(){
   clearInterval(this.characterTimer);
@@ -212,7 +212,6 @@ function GameCharacter() {
     this.jumpArc = [20,40,60,80,60,40,20];
 	}
   this.draw = function(){
-    console.log(`Draw at height : ${this.y + this.height}`);
     this.context.drawImage(this.character.image, this.currentPose.x, this.currentPose.y,
       this.currentPose.width, this.currentPose.height,
       this.x, this.y - this.height, this.currentPose.width, this.currentPose.height);
