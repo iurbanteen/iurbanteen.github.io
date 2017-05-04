@@ -12,7 +12,17 @@ var sounds = {
 var dude = {
   image : null,
   standing : {x : 5, y : 2, width: 52, height: 96},
-  running : [
+  runningRight : [
+    {x : 148, y : 4, width: 46, height: 93},
+    {x : 212, y : 2, width: 46, height: 95},
+    {x : 271, y : 2, width: 58, height: 92},
+    {x : 335, y : 3, width: 58, height: 92},
+    {x : 148, y : 102, width: 47, height: 91},
+    {x : 208, y : 102, width: 55, height: 92},
+    {x : 268, y : 99, width: 60, height: 87},
+    {x : 335, y : 100, width: 54, height: 94}
+  ],
+  runningLeft : [
     {x : 148, y : 4, width: 46, height: 93},
     {x : 212, y : 2, width: 46, height: 95},
     {x : 271, y : 2, width: 58, height: 92},
@@ -24,7 +34,10 @@ var dude = {
   ],
   jumping : { x: 271, y: 2, width: 58, height: 91}
 }
+
 var mainCharacter;
+var level1;
+
 var images = {
     groundImage: null,
     decorationImage: null
@@ -158,11 +171,15 @@ function initializeGraphics(){
   images.decorationImage.src = "images/decoration_image_map.png";
   images.decorationImage.onload = loadComplete;
 
+  level1 = new GamePlatform1();
+  level1.init(0,0,playfield, context);
+
   dude.image = new Image();
   dude.image.onload = loadedImage;
   mainCharacter = new GameCharacter();
-  mainCharacter.init(Math.round((playfield.width - dude.standing.width)/2), 460, dude, playfield, context);
+  mainCharacter.init(Math.round(playfield.width/3), 95, dude, playfield, context);
   dude.image.src = "images/Mario.png";
+
 }
 
 var loadedItems = 0;
@@ -171,6 +188,9 @@ function loadComplete() {
 }
 
 function loadedImage(){
+
+  level1.draw();
+
   console.log("Loaded image");
   mainCharacter.draw();
   loadComplete();
@@ -185,13 +205,44 @@ function gameStart() {
         return;
     $('#playfield').css('background-position', '0px 0');
     gameStarted = true;
-    drawPlatforms();
+    mainCharacter.init(Math.round(playfield.width/3), 95, dude, playfield, context);
+    mainCharacter.draw();
+    level1.init(0,0,playfield, context);
+    level1.draw();
+    // drawPlatforms();
     $('#gameStart').hide();
     $('#gameOver').hide();
     sounds.backgroundMusic.play();
     sounds.gameOver.currentTime = 0; // rewind the 'game over' sound
     startTimer();
+    requestAnimationFrame(mainLoop);
     // moveBackground();
+}
+
+function mainLoop() {
+    update();
+    draw();
+    if (gameStarted){
+      requestAnimationFrame(mainLoop);
+    }
+}
+
+function update(){
+  for (idx=0;idx<mountain.length;idx++){
+    var blockPos = mountain[idx].pos;
+    var block = {x:blockPos[0],y:blockPos[1],width:(blockPos[2]-blockPos[0]),height:blockPos[3]-blockPos[1]};
+    isCollide(block,mainCharacter.bounds());
+    console.log(`collide:`+isCollide(block,mainCharacter.bounds()));
+  }
+}
+
+function isCollide(a, b) {
+
+}
+
+function draw(){
+  level1.draw();
+  mainCharacter.draw();
 }
 
 var backgroundTimer;
@@ -201,6 +252,7 @@ function moveBackground() {
       x-=1;
       if (x>=-898){
         $('#playfield').css('background-position', x + 'px 0');
+        level1.remove(x);
       } else {
         haltBackground();
       }
@@ -212,9 +264,9 @@ function haltBackground() {
 
 // end the game
 function gameEnd() {
+    gameStarted = false;
     sounds.backgroundMusic.pause();
     sounds.gameOver.play();
-    gameStarted = false;
     moveBackground();
     $('#gameOver').show();
 }
@@ -243,13 +295,16 @@ function startTimer() {
 // Translate key press event into direction
 function keyEventHandler(event) {
     if (event.keyCode == 38) {
-        move('up');
+      event.preventDefault();
+      // if (mainCharacter.moving && !mainCharacter.jumping){
+        mainCharacter.jump();
+      // }
     } else if (event.keyCode == 39) {
-        move('right');
+        mainCharacter.speed(5);
     } else if (event.keyCode == 40) {
         move('down');
     } else if (event.keyCode == 37) {
-        move('left');
+        mainCharacter.speed(-5);
     } else if (event.keyCode == 32) {
         // spacebar event - used for game start or jump ?
     }
@@ -276,51 +331,67 @@ function GameCharacter() {
     this.jumpIndex = -1;
     this.jumpArc = [20,40,60,80,60,40,20];
 	}
+
+  this.bounds = function(){
+    return {x:this.x, y:this.y, width:this.currentPose.width, height:this.currentPose.height};
+  }
+
   this.draw = function(){
     this.context.drawImage(this.character.image, this.currentPose.x, this.currentPose.y,
       this.currentPose.width, this.currentPose.height,
-      this.x, this.y - this.height, this.currentPose.width, this.currentPose.height);
+      this.x, this.y - this.height, this.currentPose.width/3, this.currentPose.height/3);
   }
 
-  this.step = function(){
+  this.speed = function(speed){
     this.moving = true;
     this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
-    if (this.jumping){
-      this.jumpIndex++;
-      if (this.jumpIndex < this.jumpArc.length){
-          this.height = this.jumpArc[this.jumpIndex];
-      } else {
-        this.height = 0;
-        this.jumping = false;
-        this.jumpIndex = -1;
-      }
-      this.currentPose = this.character.jumping;
+    if (speed<0 && this.x>=0){
+      this.x += speed;
+      this.currentPose = this.character.runningRight[this.moveIndex % (this.character.runningRight.length)];
+    } else if (speed>0 && (this.x+this.currentPose.width)<=this.canvas.width) {
+      this.x += speed;
+      this.currentPose = this.character.runningRight[this.moveIndex % (this.character.runningRight.length)];
     } else {
-      this.currentPose = this.character.running[this.moveIndex % (this.character.running.length)];
+      speed=0;
+      this.currentPose = this.character.standing;
     }
     this.moveIndex++;
   }
 
-  this.halt = function(){
-    this.moving = false;
-    this.jumping = false;
-    this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
-    this.height = 0;
-    this.currentPose = this.character.standing;
-    this.draw();
-  }
   this.jump = function(){
     this.jumping = true;
+    this.jumpIndex++;
+    this.currentPose = this.character.jumping;
   }
 
 }
 
-function drawPlatforms() {
-  for (idx=0;idx<mountain.length;idx++){
-    var blockCoords = groundShapes[mountain[idx].block];
-    var blockPos = mountain[idx].pos;
-    context.drawImage(images.groundImage,
-      blockCoords[0],blockCoords[1],blockCoords[2],blockCoords[3],
-      blockPos[0],blockPos[1],blockPos[2],blockPos[3]);
+function GamePlatform1() {
+	this.init = function(x, y, canvas, context) {
+    // Default variables
+    this.x = x;
+    this.y = y;
+    this.height = 0;
+    // this.character = character;
+    this.context = context;
+    this.canvas = canvas;
+    this.moving = false;
+  }
+
+  this.draw = function(){
+    for (idx=0;idx<mountain.length;idx++){
+      var blockCoords = groundShapes[mountain[idx].block];
+      var blockPos = mountain[idx].pos;
+      context.drawImage(images.groundImage,
+        this.x+blockCoords[0],this.y+blockCoords[1],blockCoords[2],blockCoords[3],
+        blockPos[0],blockPos[1],blockPos[2],blockPos[3]);
+    }
+  }
+
+  this.remove = function(xPos){
+    this.moving = true;
+    this.context.clearRect(0,0,this.canvas.width,this.canvas.height );
+    this.x-=xPos;
+    this.draw();
   }
 }

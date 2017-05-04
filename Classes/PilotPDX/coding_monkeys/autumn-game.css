@@ -18,7 +18,7 @@ body{
   border-bottom-right-radius: 8px;
 }
 canvas {
-  width: 2000px;
+  width: 1000px;
   height: 500px;
   background-image: url('images/background_full.png');
   background-repeat: no-repeat;
