@@ -3,16 +3,10 @@ body{
 }
 #gameboard{
   position:relative;
-}
-canvas {
+  overflow: hidden;
+  width: 898px;
   border-style: solid;
   border-color: black;
-  width: 1000px;
-  height: 500px;
-  background-image: url('images/background.png');
-  background-repeat: repeat-x;
-  z-index: 0;
-  position: relative;
   background-color: white;
   -webkit-border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
@@ -20,6 +14,16 @@ canvas {
   -moz-border-radius-topright: 8px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+canvas {
+  width: 2000px;
+  height: 500px;
+  background-image: url('images/background_full.png');
+  background-repeat: no-repeat;
+  z-index: 0;
+  position: relative;
 }
 .boardValueContainer{
   position: absolute;
@@ -51,7 +55,7 @@ span#score{
 }
 
 span#level{
-  left: 325px;
+  left: 430px;
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
@@ -61,14 +65,14 @@ span#level{
 }
 
 span#timer{
-  left: 650px;
+  left: 850px;
   -webkit-border-bottom-left-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   border-bottom-left-radius: 8px;
 }
 div#progressStats{
   display: block;
-  width: 790px;
+  width: 990px;
   height: 20px;
   padding: 5px;
   border-style: solid;
@@ -85,8 +89,8 @@ div#progressStats{
   z-index: 2;
   height: 20px;
   width: 160px;
-  top: 290px;
-  left: 320px;
+  top: 230px;
+  left: 420px;
   text-align: center;
   font-size: 20px;
 }
