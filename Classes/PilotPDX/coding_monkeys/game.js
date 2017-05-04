@@ -9,6 +9,22 @@ var sounds = {
     backgroundMusic: null,
     gameOver: null
 }
+var dude = {
+  image : null,
+  standing : {x : 5, y : 2, width: 52, height: 96},
+  running : [
+    {x : 148, y : 4, width: 46, height: 93},
+    {x : 212, y : 2, width: 46, height: 95},
+    {x : 271, y : 2, width: 58, height: 92},
+    {x : 335, y : 3, width: 58, height: 92},
+    {x : 148, y : 102, width: 47, height: 91},
+    {x : 208, y : 102, width: 55, height: 92},
+    {x : 268, y : 99, width: 60, height: 87},
+    {x : 335, y : 100, width: 54, height: 94}
+  ],
+  jumping : { x: 271, y: 2, width: 58, height: 91}
+}
+var mainCharacter;
 var images = {
     groundImage: null,
     decorationImage: null
@@ -141,11 +157,23 @@ function initializeGraphics(){
   images.decorationImage = new Image();
   images.decorationImage.src = "images/decoration_image_map.png";
   images.decorationImage.onload = loadComplete;
+
+  dude.image = new Image();
+  dude.image.onload = loadedImage;
+  mainCharacter = new GameCharacter();
+  mainCharacter.init(Math.round((playfield.width - dude.standing.width)/2), 460, dude, playfield, context);
+  dude.image.src = "images/Mario.png";
 }
 
 var loadedItems = 0;
 function loadComplete() {
     loadedItems += 1;
+}
+
+function loadedImage(){
+  console.log("Loaded image");
+  mainCharacter.draw();
+  loadComplete();
 }
 
 function isEveryingLoaded() {
@@ -230,6 +258,61 @@ function keyEventHandler(event) {
 function move(direction) {
     console.log(`Move ${direction}`);
     // add the motion handling
+}
+
+function GameCharacter() {
+	this.init = function(x, y, character, canvas, context) {
+		// Default variables
+		this.x = x;
+		this.y = y;
+    this.height = 0;
+    this.character = character;
+    this.context = context;
+    this.canvas = canvas;
+    this.moving = false;
+    this.jumping = false;
+    this.currentPose = character.standing;
+    this.moveIndex = 0;
+    this.jumpIndex = -1;
+    this.jumpArc = [20,40,60,80,60,40,20];
+	}
+  this.draw = function(){
+    this.context.drawImage(this.character.image, this.currentPose.x, this.currentPose.y,
+      this.currentPose.width, this.currentPose.height,
+      this.x, this.y - this.height, this.currentPose.width, this.currentPose.height);
+  }
+
+  this.step = function(){
+    this.moving = true;
+    this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
+    if (this.jumping){
+      this.jumpIndex++;
+      if (this.jumpIndex < this.jumpArc.length){
+          this.height = this.jumpArc[this.jumpIndex];
+      } else {
+        this.height = 0;
+        this.jumping = false;
+        this.jumpIndex = -1;
+      }
+      this.currentPose = this.character.jumping;
+    } else {
+      this.currentPose = this.character.running[this.moveIndex % (this.character.running.length)];
+    }
+    this.moveIndex++;
+  }
+
+  this.halt = function(){
+    this.moving = false;
+    this.jumping = false;
+    this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
+    this.height = 0;
+    this.currentPose = this.character.standing;
+    this.draw();
+  }
+  this.jump = function(){
+    this.jumping = true;
+  }
+
 }
 
 function drawPlatforms() {
