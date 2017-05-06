@@ -5,20 +5,16 @@
  */
 function Character() {
 	this.speed = 3;
-	this.bulletPool = new Pool(30);
-	this.bulletPool.init();
-	var fireRate = 15;
 	var counter = 0;
 	this.draw = function() {
-		this.context.drawImage(imageRepository.spaceship, this.x, this.y);
+		this.context.drawImage(images.dude, this.x, this.y);
 	};
 	this.move = function() {
 		counter++;
 		// Determine if the action is move action
 		if (KEY_STATUS.left || KEY_STATUS.right ||
 			KEY_STATUS.down || KEY_STATUS.up) {
-			// The ship moved, so erase it's current image so it can
-			// be redrawn in it's new location
+			// We moved - erase us at old location
 			this.context.clearRect(this.x, this.y, this.width, this.height);
 			// Update x and y according to the direction to move and
 			// redraw the ship. Change the else if's to if statements
