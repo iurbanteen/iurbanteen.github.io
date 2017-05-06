@@ -2,3 +2,18 @@ canvas{
   border-width: thin;
   border-style: solid;
 }
+div#gameBoard{
+  width: 800px;
+}
+span#controls{
+  float: left;
+}
+span#counters{
+  float: right;
+}
+span#timer{
+  width: 60px;
+  text-align: right;
+  display: inline-block;
+  font-weight: bold;
+}

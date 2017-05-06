@@ -6,7 +6,14 @@
   <script src="shooter.js"></script>
 </head>
 <body>
-  <canvas id="playfield" width="800" height="600"></canvas>
-  <p><a href="#" onclick="gameStart();">Start</a></p>
+  <div id="gameBoard">
+    <div id="canvas">
+      <canvas id="playfield" width="800" height="600"></canvas>
+    </div>
+    <div id="meta">
+      <span id="controls"><a href="#" onclick="gameStart();">Start</a></span>
+      <span id="counters"> Timer: <span id="timer">0</span> </span>
+    </div>
+</div>
 </body>
 </html>
