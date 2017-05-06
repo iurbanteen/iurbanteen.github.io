@@ -209,7 +209,7 @@ function GameCharacter() {
     this.currentPose = character.standing;
     this.moveIndex = 0;
     this.jumpIndex = -1;
-    this.jumpArc = [20,40,60,80,60,40,20];
+    this.jumpArc = [20,40,60,80];
 	}
   this.draw = function(){
     this.context.drawImage(this.character.image, this.currentPose.x, this.currentPose.y,

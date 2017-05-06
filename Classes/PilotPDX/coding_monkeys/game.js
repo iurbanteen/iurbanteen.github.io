@@ -179,7 +179,7 @@ function initializeGraphics(){
   dude.image = new Image();
   dude.image.onload = loadedImage;
   mainCharacter = new GameCharacter();
-  mainCharacter.init(20, 95, dude, playfield, context);
+  mainCharacter.init(20, 0, dude, playfield, context);
   dude.image.src = "images/Mario.png";
 
 }
@@ -207,7 +207,7 @@ function gameStart() {
         return;
     $('#playfield').css('background-position', '0px 0');
     gameStarted = true;
-    mainCharacter.init(20, 95, dude, playfield, context);
+    mainCharacter.init(20, 0, dude, playfield, context);
     mainCharacter.draw();
     level1.init(0,0,playfield, context);
     level1.draw();
@@ -283,7 +283,7 @@ function startTimer() {
             gameEnd();
         }
         updateClock(timedCounter);
-    }, 1000);
+    }, 5000);
 }
 
 // Translate key press event into direction
@@ -291,7 +291,9 @@ function keyEventHandler(event) {
     if (event.keyCode == 38) {
       event.preventDefault();
       // if (mainCharacter.moving && !mainCharacter.jumping){
-        mainCharacter.jump();
+        mainCharacter.jumping=true;
+        mainCharacter.speed(0);
+        // mainCharacter.jump();
       // }
     } else if (event.keyCode == 39) {
         mainCharacter.speed(5);
@@ -323,9 +325,12 @@ function GameCharacter() {
     this.currentPose = character.standing;
     this.moveIndex = 0;
     this.jumpIndex = -1;
-    this.jumpArc = [20,40,60,80,60,40,20];
+    this.jumpArc = [25,50,75,100];
     this.collideRight = false;
     this.collideLeft = false;
+    this.yFall = this.speedY = 1;
+    this.gravity = 0.05;
+    this.gravitySpeed = 0;
 	}
 
   this.bounds = function(){
@@ -339,11 +344,16 @@ function GameCharacter() {
   this.update = function(){
     this.collideLeft = false;
     this.collideRight = false;
+    // this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
+    // this.gravitySpeed += this.gravity;
+    this.context.clearRect(this.x,this.y - this.height,this.currentPose.width,this.currentPose.height );
+    this.y += this.speedY + this.gravitySpeed;
+    this.speedY = this.yFall;
   }
 
   var blockLeft;
 
-  this.collide = function(displayBlock, distanceBetweenCenters){
+  this.collideRow = function(displayBlock, distanceBetweenCenters){
     console.log('bump');
     var blockCenter = displayBlock.center();
     var characterCenter = this.center;
@@ -356,6 +366,10 @@ function GameCharacter() {
       this.collideRight = true;
     }
 
+  }
+
+  this.collideColumn = function(displayBlock, distanceBetweenCenters){
+    this.speedY = 0;
   }
 
   this.draw = function(){
@@ -373,17 +387,24 @@ function GameCharacter() {
     } else if (speed>0 && (this.x+this.currentPose.width)<=this.canvas.width  && !this.collideRight) {
       this.x += speed;
       this.currentPose = this.character.runningRight[this.moveIndex % (this.character.runningRight.length)];
+    } else if (this.jumping){
+      this.x += speed;
+      this.jumpIndex++;
+      this.currentPose = this.character.jumping;
+      if (this.jumpIndex < this.jumpArc.length){
+        this.speedY = this.yFall;
+        this.y -= this.jumpArc[this.jumpIndex];
+      } else {
+        // this.speedY = 0;
+        this.jumping = false;
+        this.jumpIndex = -1;
+      }
     } else {
       speed=0;
+      speedY=0;
       this.currentPose = this.character.standing;
     }
     this.moveIndex++;
-  }
-
-  this.jump = function(){
-    this.jumping = true;
-    this.jumpIndex++;
-    this.currentPose = this.character.jumping;
   }
 
 }
@@ -416,7 +437,9 @@ function GamePlatform1() {
       var yRow = gameBlock.y+gameBlock.height;
       var characterRow = character.bounds().y+character.bounds().height;
       if (characterRow<=yRow && characterRow>gameBlock.y){
-        gameBlock.collide(character);
+        gameBlock.collideRow(character);
+      } else if (character.center().x>=gameBlock.x && character.x<(gameBlock.x+gameBlock.width)) {
+        gameBlock.collideColumn(character);
       }
     }
   }
@@ -462,13 +485,24 @@ function GameBlock() {
     return {x:this.x+(this.width/2) , y:this.y+(this.height/2)};
   }
 
-  this.collide = function(object){
-    this.sameRow = true;
+  this.collideRow = function(object){
     var objBounds = object.bounds();
     var objCenter = object.center();
     var distanceBetweenCenters = objCenter.x - this.center().x ;
     if (Math.abs(distanceBetweenCenters)<( (objBounds.width/2)+(this.width/2) ) ) {
-      object.collide(this, distanceBetweenCenters);
+      object.collideRow(this, distanceBetweenCenters);
+    }
+  }
+
+  this.collideColumn = function(mario){
+    var marioBounds = mario.bounds();
+    var marioCenter = mario.center();
+    var distanceBetweenCenters = this.center().y - marioCenter.y;
+    // if (Math.abs(distanceBetweenCenters)<( (marioBounds.height/2)+(this.height/2) ) ) {
+    //   mario.collideColumn(this, distanceBetweenCenters);
+    // }
+    if ( (marioBounds.y + marioBounds.height) >= this.y - 1 ) {
+      mario.collideColumn(this, distanceBetweenCenters);
     }
   }
 
