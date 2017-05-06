@@ -151,7 +151,7 @@ var enemy = {
     // create some random ships
     for(var i = 0; i < numberOfShips; i ++){
         var xLocation = Math.round(Math.random() * playfield.width);
-        var yLocation = Math.round(Math.random() * 200) + this.shipHeight;
+        var yLocation = Math.round(Math.random() * 400) + this.shipHeight;
         this.addShip(xLocation, -yLocation); // random location, 10px from top
         //console.log(`Add ship at {${xLocation}, ${yLocation}}`);
     }
