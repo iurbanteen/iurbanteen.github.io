@@ -4,7 +4,7 @@ body{
 #gameboard{
   position:relative;
   overflow: hidden;
-  width: 898px;
+  width: 900px;
   border-style: solid;
   border-color: black;
   background-color: white;
@@ -18,7 +18,7 @@ body{
   border-bottom-right-radius: 8px;
 }
 canvas {
-  width: 1000px;
+  width: 900px;
   height: 500px;
   background-image: url('images/background_full.png');
   background-repeat: no-repeat;
@@ -52,36 +52,34 @@ span#score{
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomright: 8px;
   border-bottom-right-radius: 8px;
+  top: -2px;
+  left: -2px;
 }
 
 span#level{
-  left: 430px;
+  left: 370px;
   -webkit-border-bottom-left-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  top: -2px;
 }
 
 span#timer{
-  left: 850px;
+  left: 746px;
   -webkit-border-bottom-left-radius: 8px;
   -moz-border-radius-bottomleft: 8px;
   border-bottom-left-radius: 8px;
+  top:-2px;
 }
 div#progressStats{
   display: block;
   width: 990px;
   height: 20px;
   padding: 5px;
-  border-style: solid;
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-top: solid black 2px;
 }
 
 .gameNotice{
