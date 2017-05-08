@@ -50,6 +50,12 @@ function initializeAudio() {
   $(sounds.backgroundMusic).on('loadeddata', loadComplete);
   sounds.backgroundMusic.load();
 
+  // var shooting = new Audio("audio/rpg-firing.wav");
+  // $(shooting).on('loadeddata', loadComplete);
+  // shooting.load();
+  sounds.shoots = new SoundPool(5);
+  sounds.shoots.init("audio/rpg-firing.wav", loadComplete);
+
   sounds.gameOver = new Audio("audio/gameOverSound.m4a");
   $(sounds.gameOver).on('loadeddata', loadComplete);
   sounds.gameOver.load();
@@ -69,7 +75,7 @@ function loadComplete() {
 }
 
 function isEveryingLoaded() {
-    return (loadedItems == 6);
+    return (loadedItems == 7);
 }
 // start the game
 function gameStart() {
@@ -151,15 +157,18 @@ var duck = {
   bullets: [],
   img: null,
   weapon : {
-    inactive : {x : 45, y: 26, width: 37, height: 104},
+    inactive : {x : 45, y: 12, width: 37, height: 118},
     firing : {x: 95, y: 12, width: 35, height: 118},
     isFiring : false,
-    fireCount : 2,
+    fireCount : 4,
+    fireCountdown : 0,
     bullet : {x: 24, y: 11, width: 11, height: 22},
     bullets : [],
+    fireSounds : null,
     getCurrent(){ return (this.isFiring) ? this.firing : this.inactive; }
   },
   draw(){
+    if (--this.weapon.fireCountdown <= 0) this.weapon.isFiring = false;
     context.clearRect(this.x, this.y, this.width, this.height);
     var cw = this.weapon.getCurrent();
     context.clearRect(this.x - 20, this.y, cw.width, cw.height);
@@ -197,6 +206,9 @@ var duck = {
     this.x = Math.round( (playfield.width - this.width) / 2);
   },
   fire(){
+    this.weapon.isFiring = true;
+    this.weapon.fireCountdown = this.weapon.fireCount;
+    sounds.shoots.play();
     if(this.bullets.length < this.bulletLimit){
       this.bullets.push({x:this.x, y: this.y});
     }
@@ -204,7 +216,7 @@ var duck = {
   drawBullets(){
     // remove offscreen bullets
     for(var i = this.bullets.length; i--; ){
-      if (this.bullets[i].y < 0) this.bullets.splice(i, 1);
+      if (this.bullets[i].y < 0 - this.weapon.bullet.height) this.bullets.splice(i, 1);
     }
     for(var i = this.bullets.length; i--; ){
       //console.log(`bullet at ${i} : ${}`)
@@ -212,14 +224,12 @@ var duck = {
     }
   },
   drawBullet(bullet){
+    context.clearRect(bullet.x, bullet.y, this.weapon.bullet.width, this.weapon.bullet.height);
     bullet.y -= 5;
-    context.beginPath();
-    context.moveTo(bullet.x, bullet.y);
-    context.lineTo(bullet.x, bullet.y - 5);
-    context.lineWidth = 4;
-    context.strokeStyle = 'darkred';
-    context.stroke();
-    context.closePath();
+    context.drawImage(this.weapon.img, this.weapon.bullet.x, this.weapon.bullet.y,
+      this.weapon.bullet.width, this.weapon.bullet.height,
+      bullet.x, bullet.y,
+      this.weapon.bullet.width, this.weapon.bullet.height);
   }
 }
 // register the key press listener
@@ -259,4 +269,40 @@ KEY_CODES = {
 KEY_STATUS = {};
 for (code in KEY_CODES) {
   KEY_STATUS[ KEY_CODES[ code ]] = false;
+}
+
+
+function SoundPool(maxSize) {
+	var size = maxSize; // Max sounds allowed in the pool
+	var pool = [];
+	this.pool = pool;
+	var currSound = 0;
+  var completionCallback;
+  /*
+	 * Populates the pool array with the given sound
+	 */
+	this.init = function(audioSrc, completeCallback) {
+    completionCallback = completeCallback;
+			for (var i = 0; i < size; i++) {
+				// Initalize the sound
+				pool[i] = new Audio(audioSrc);
+        $(pool[i]).on('loadeddata', this.loadComplete);
+        pool[i].load();
+			}
+	};
+  var loaded = 0;
+  this.loadComplete = function(){
+    console.log('audio pool load complete');
+    loaded++;
+    if (loaded == maxSize) completionCallback();
+  }
+	/*
+	 * Plays a sound
+	 */
+	this.play = function() {
+		if(pool[currSound].currentTime == 0 || pool[currSound].ended) {
+			pool[currSound].play();
+		}
+		currSound = (currSound + 1) % size;
+	};
 }
