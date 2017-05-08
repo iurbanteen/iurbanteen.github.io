@@ -56,7 +56,8 @@ function initializeAudio() {
 
   sounds.shoots = new Howl({
     src: ['audio/rpg-firing.wav', 'audio/rpg-firing.ogg'],
-    onload : loadComplete
+    onload : loadComplete,
+    buffer : true
   });
   //sounds.shoots = new SoundPool(5);
   //sounds.shoots.init("audio/rpg-firing.wav", loadComplete);
