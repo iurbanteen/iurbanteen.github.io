@@ -55,7 +55,7 @@ function initializeAudio() {
   // shooting.load();
 
   sounds.shoots = new Howl({
-    src: ['audio/rpg-firing.wav'], //, 'audio/rpg-firing.ogg'
+    src: ['audio/rpg-firing.ogg'], //, 'audio/rpg-firing.ogg'
     onload : loadComplete,
     html5 : true,
     preload : true
