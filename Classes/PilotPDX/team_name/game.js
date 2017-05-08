@@ -53,8 +53,13 @@ function initializeAudio() {
   // var shooting = new Audio("audio/rpg-firing.wav");
   // $(shooting).on('loadeddata', loadComplete);
   // shooting.load();
-  sounds.shoots = new SoundPool(5);
-  sounds.shoots.init("audio/rpg-firing.wav", loadComplete);
+
+  sounds.shoots = new Howl({
+    src: ['audio/rpg-firing.wav', 'audio/rpg-firing.ogg'],
+    onload : loadComplete
+  });
+  //sounds.shoots = new SoundPool(5);
+  //sounds.shoots.init("audio/rpg-firing.wav", loadComplete);
 
   sounds.gameOver = new Audio("audio/gameOverSound.m4a");
   $(sounds.gameOver).on('loadeddata', loadComplete);
