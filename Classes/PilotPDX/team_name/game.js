@@ -1,6 +1,6 @@
 var currentScore;
 var livesRemaining;
-var gameLengthSeconds = 30;
+var gameLengthSeconds = 3;
 var timedCounter;
 var gameStarted = false;
 var playfield;
@@ -29,10 +29,12 @@ $(function() {
     // initialization routine(s)
     initializeListeners();
     initializeAudio();
-    duck.initialize();
-    duck.draw();
-
+    initializeCharacters();
 });
+
+function initializeCharacters(){
+  duck.initialize(loadComplete);
+}
 
 // register the key press listener
 function initializeListeners() {
@@ -67,7 +69,7 @@ function loadComplete() {
 }
 
 function isEveryingLoaded() {
-    return (loadedItems == 4);
+    return (loadedItems == 6);
 }
 // start the game
 function gameStart() {
@@ -80,8 +82,21 @@ function gameStart() {
     sounds.gameOver.currentTime = 0; // rewind the 'game over' sound
     startTimer();
     moveBackground();
-    duck.draw();
+    startAnimation();
 }
+var animationTimer;
+function startAnimation(){
+  animationTimer = setInterval(function() {
+    animate();
+  }, 1);
+}
+function stopAnimation(){
+  clearInterval(animationTimer);
+}
+function animate(){
+  duck.draw();
+}
+
 var backgroundTimer;
 function moveBackground() {
     backgroundTimer = setInterval(function() {
@@ -98,6 +113,7 @@ function gameEnd() {
     sounds.gameOver.play();
     gameStarted = false;
     haltBackground();
+    stopAnimation();
     $('#gameOver').show();
 }
 // update the onscreen timer
@@ -121,30 +137,11 @@ function startTimer() {
     }, 1000);
 }
 
-// Translate key press event into direction
-function keyEventHandler(event) {
-    if (event.keyCode == 38) {
-        move('up');
-    } else if (event.keyCode == 39) {
-        move('right');
-    } else if (event.keyCode == 40) {
-        move('down');
-    } else if (event.keyCode == 37) {
-        move('left');
-    } else if (event.keyCode == 32) {
-        // spacebar event - used for game start or jump ?
-    }
-}
-
-function move(direction) {
-    console.log(`Move ${direction}`);
-    // add the motion handling
-}
 var duck = {
-  x: 325,
+  x: 0,
   y: 397,
-  width: 150,
-  height: 150,
+  width: 100,
+  height: 100,
   hit: false,
   speed: 1,
   direction: 0,
@@ -153,8 +150,19 @@ var duck = {
   bulletLimit: 5,
   bullets: [],
   img: null,
+  weapon : {
+    inactive : {x : 45, y: 26, width: 37, height: 104},
+    firing : {x: 95, y: 12, width: 35, height: 118},
+    isFiring : false,
+    fireCount : 2,
+    bullet : {x: 24, y: 11, width: 11, height: 22},
+    bullets : [],
+    getCurrent(){ return (this.isFiring) ? this.firing : this.inactive; }
+  },
   draw(){
-    context.clearRect(this.x-2, this.y-2, this.width+4, this.height+4);
+    context.clearRect(this.x, this.y, this.width, this.height);
+    var cw = this.weapon.getCurrent();
+    context.clearRect(this.x - 20, this.y, cw.width, cw.height);
     // Determine if the action is move action
 		if (KEY_STATUS.left || KEY_STATUS.right) {
 			if (KEY_STATUS.left) {
@@ -163,11 +171,13 @@ var duck = {
 					this.x = 0;
 			} else if (KEY_STATUS.right) {
 				this.x += this.speed
-				if (this.x >= this.canvasWidth - this.width)
-					this.x = this.canvasWidth - this.width;
+				if (this.x >= playfield.width - this.width)
+					this.x = playfield.width - this.width;
 			}
     }
     context.drawImage(this.img,this.x ,this.y);
+    context.drawImage(this.weapon.img, cw.x, cw.y, cw.width, cw.height,
+      this.x - 20, this.y, cw.width, cw.height);
     // fire!!!
     if (KEY_STATUS.space) {
       this.fire();
@@ -177,14 +187,14 @@ var duck = {
     context.setTransform(1, 0, 0, 1, 0, 0);
     this.drawBullets();
   },
-  initialize(){
-    this.x = Math.round( (playfield.width + this.width) / 2);
+  initialize(completeCallback){
     this.img = new Image();
-    this.img.onload = this.loaded;
-    this.img.src = "images/rubberDucky.jpg";
-  },
-  loaded(){
-    console.log('loaded!');
+    this.img.onload = completeCallback;
+    this.img.src = "images/rubberDucky-sm.png";
+    this.weapon.img = new Image();
+    this.weapon.img.onload = completeCallback;
+    this.weapon.img.src = "images/rpg-sm.png";
+    this.x = Math.round( (playfield.width - this.width) / 2);
   },
   fire(){
     if(this.bullets.length < this.bulletLimit){
