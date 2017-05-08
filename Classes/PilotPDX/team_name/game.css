@@ -93,6 +93,12 @@ div#progressStats{
 #startGame{
   display: block;
 }
+a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
 #gameOver{
   display: none;
+  color: #FF0000;
+  font-weight: bold;
 }

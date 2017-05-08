@@ -38,18 +38,19 @@ $(function() {
 });
 
 function drawBikeBoy(){
-  context.drawImage(bikeBoyImage, 130, 80);
+  context.drawImage(bikeBoyImage, 1, 1);
 
 }
 function initializeImage(){
-  bikeBoyImage = new Image();
-  bikeBoyImage.src = "images/brashbluebikeboy.png";
-  bikeBoyImage.onLoad = imageLoaded;
+  Hero.image = new Image();
+  Hero.image.src = "brashbluebikeboy.png";
+  Hero.image.onLoad = imageLoaded;
 }
 function imageLoaded(){}
 // register the key press listener
 function initializeListeners() {
-    document.onkeydown = keyEventHandler;
+    document.onkeydown = keyDownEventHandler;
+    document.onkeyup = keyUpEventHandler;
     // will need to add 'key up' for continual movement
 }
 // load all the sounds before we start
@@ -78,7 +79,7 @@ function initializeAudio() {
     sounds.crowSound.load();
 
     sounds.ratSqueak = new Audio("audio/ratsqueak.wav");
-    $(sounds.ratSqueak).on('loadeddata', loadComplete);    
+    $(sounds.ratSqueak).on('loadeddata', loadComplete);
     sounds.ratSqueak.load();
   }
 var loadedItems = 0;
@@ -93,7 +94,7 @@ function isEveryingLoaded() {
 function gameStart() {
     if (!isEveryingLoaded)
         return;
-      drawBikeBoy();
+      //drawBikeBoy();
     gameStarted = true;
     $('#gameStart').hide();
     $('#gameOver').hide();
@@ -101,6 +102,8 @@ function gameStart() {
     sounds.die.currentTime = 0; // rewind the 'game over' sound
     startTimer();
     moveBackground();
+    Hero.init(380,445);
+    startAnimation();
 }
 var backgroundTimer;
 function moveBackground() {
@@ -140,31 +143,75 @@ function startTimer() {
         updateClock(timedCounter);
     }, 1000);
 }
-
-// Translate key press event into direction
-function keyEventHandler(event) {
-  console.log(`Key Code ${event.keyCode}`);
-    if (event.keyCode == 38) {
-        move('up');
-        sounds.jumpSound.play();
-    } else if (event.keyCode == 39) {
-        move('right');
-    } else if (event.keyCode == 40) {
-        move('down');
-    } else if (event.keyCode == 37) {
-        move('left');
-    } else if (event.keyCode == 75) {
-        sounds.crowSound.play();
-    } else if (event.keyCode == 74) {
-        sounds.ratSqueak.play();
-    } else if (event.keyCode == 186) {
-        sounds.pickUpCoin.play();
-    } else if (event.keyCode == 76) {
-        sounds.die.play();
-    }
+var move;
+function startAnimation(){
+  move = setInterval(function() {
+    animate();
+  },1);
+}
+function stopAnimation(){
+  clearInterval(move);
+}
+function animate(){
+  Hero.draw();
 }
 
-function move(direction) {
-    console.log(`Move ${direction}`);
-    // add the motion handling
+
+// Translate key press event into direction
+function keyDownEventHandler(event) {
+   if (KEY_CODES[event.keyCode]) {
+     event.preventDefault();
+     KEY_STATUS[KEY_CODES[event.keyCode]] = true;
+   }
+}
+function keyUpEventHandler(event) {
+  if (KEY_CODES[event.keyCode]) {
+    event.preventDefault();
+    KEY_STATUS[KEY_CODES[event.keyCode]] = false;
+  }
+}
+
+// The keycodes that will be mapped when a user presses a button.
+// Original code by Doug McInnes
+KEY_CODES = {
+  32: 'space',
+  37: 'left',
+  38: 'up',
+  39: 'right',
+  40: 'down',
+}
+// Creates the array to hold the KEY_CODES and sets all their values
+// to false. Checking true/flase is the quickest way to check status
+// of a key press and which one was pressed when determining
+// when to move and which direction.
+KEY_STATUS = {};
+for (code in KEY_CODES) {
+  KEY_STATUS[ KEY_CODES[ code ]] = false;
+}
+
+var Hero={
+  x:0,
+  y:0,
+  speed:1,
+  image:null,
+  init(x,y){
+    this.x=x;
+    this.y=y;
+  },
+  draw(){
+    console.log('draw');
+    context.clearRect(this.x,this.y,50,60);
+    if (KEY_STATUS.left || KEY_STATUS.right) {
+      if (KEY_STATUS.left) {
+        this.x -= this.speed
+        if (this.x <= 100) // Keep player within the screen
+          this.x = 100;
+      } else if (KEY_STATUS.right) {
+        this.x += this.speed
+        if (this.x >= playfield.width - 115)
+          this.x = playfield.width - 115;
+      }
+    }
+    context.drawImage(this.image, this.x, this.y, 50,60);
+  }
 }
